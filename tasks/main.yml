@@ -1,0 +1,85 @@
+---
+- name: Add java 8 repo
+  apt_repository: repo='ppa:openjdk-r/ppa'
+  tags:
+    - provision
+
+- name: Install required system packages
+  apt: pkg="{{ item }}" state=installed update-cache=yes
+  with_items:
+  - openjdk-8-jre
+  - wget
+  - unzip
+  - vim
+  - curl
+  tags:
+    - provision
+
+# This sets up the filesystem for the clojure app
+- name: Create user
+  user: home=/home/{{ clojure_uberjar_webapp_app_user }} name={{ clojure_uberjar_webapp_app_user }} state=present
+  tags:
+    - provision
+
+- name: Create project directory
+  file: state=directory path={{ clojure_uberjar_webapp_app_root }} owner={{ clojure_uberjar_webapp_app_user }} group={{ clojure_uberjar_webapp_app_user }} mode=755
+  tags:
+    - provision
+
+- name: Check existence of local env file
+  local_action: stat path="{{ clojure_uberjar_webapp_app_env_local_path }}"
+  register: app_env_local_file
+  ignore_errors: True
+  become: False
+  tags:
+    - configure
+
+- name: Copy app env file
+  template: src="{{ clojure_uberjar_webapp_app_env_local_path }}" dest="{{ clojure_uberjar_webapp_app_env_path }}"
+  tags:
+    - configure
+  when: app_env_local_file.stat.exists
+  
+    
+- name: Upload http env var file
+  template: src="templates/http-env.j2" dest="{{ clojure_uberjar_webapp_app_http_env_path }}"
+  tags:
+    - configure
+
+- name: Upload datomic env var file
+  template: src="templates/datomic-env.j2" dest="{{ clojure_uberjar_webapp_datomic_env_path }}"
+  tags:
+    - configure
+  when: datomic_uri is defined
+    
+- name: Upload web app upstart config file
+  template: src="templates/app-upstart.conf.j2" dest="/etc/init/{{ clojure_uberjar_webapp_app_service_name }}.conf"
+  tags:
+    - configure
+
+- name: Make app log directory
+  file: state=directory path=/var/log/{{ clojure_uberjar_webapp_domain }} owner={{ clojure_uberjar_webapp_app_user }} group={{ clojure_uberjar_webapp_app_user }} mode=755
+  tags:
+    - provision
+
+  # A non-ansible script creates files/app.jar
+- name: Copy uberjar
+  copy: src=files/app.jar dest={{ clojure_uberjar_webapp_app_root }}/{{ clojure_uberjar_webapp_app_jar_name }}
+  tags:
+    - deploy
+
+# TODO make this a handler
+- name: Install schemas
+  command: chdir={{ clojure_uberjar_webapp_app_root }}/ java -Xms200m -Xmx400m  -jar {{ clojure_uberjar_webapp_app_jar_name }} db/install-schemas
+  environment:
+    DB_URI: "{{ datomic_uri }}"
+  tags:
+    - deploy
+
+# TODO: no-downtime deploy
+- name: Restart web app
+  service: name={{ clojure_uberjar_webapp_app_service_name }} state=restarted
+  become: yes
+  become_method: sudo
+  tags:
+    - deploy
