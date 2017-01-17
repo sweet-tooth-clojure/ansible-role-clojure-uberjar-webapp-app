@@ -58,7 +58,7 @@
     - configure
 
 - name: Make app log directory
-  file: state=directory path=/var/log/{{ clojure_uberjar_webapp_domain }} owner={{ clojure_uberjar_webapp_app_user }} group={{ clojure_uberjar_webapp_app_user }} mode=755
+  file: state=directory path={{ clojure_uberjar_webapp_app_log_dir }} owner={{ clojure_uberjar_webapp_app_user }} group={{ clojure_uberjar_webapp_app_user }} mode=755
   tags:
     - provision
 

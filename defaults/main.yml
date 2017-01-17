@@ -1,13 +1,14 @@
 ---
-clojure_uberjar_webapp_app_user: "{{ clojure_uberjar_webapp_domain_dashed }}"
-clojure_uberjar_webapp_app_root: "/var/www/{{ clojure_uberjar_webapp_domain }}"
+Clojure_uberjar_webapp_app_user: "{{ clojure_uberjar_webapp_app_name }}"
+clojure_uberjar_webapp_app_root: "/var/www/{{ clojure_uberjar_webapp_app_name }}"
 clojure_uberjar_webapp_app_http_port: 3000
 clojure_uberjar_webapp_app_http_env_path: "{{ clojure_uberjar_webapp_app_root }}/.http-env"
-clojure_uberjar_webapp_app_service_name: "{{ clojure_uberjar_webapp_domain_dashed }}"
-clojure_uberjar_webapp_app_jar_name: "{{ clojure_uberjar_webapp_domain }}.jar"
+clojure_uberjar_webapp_app_service_name: "{{ clojure_uberjar_webapp_app_name }}"
+clojure_uberjar_webapp_app_jar_name: "{{ clojure_uberjar_webapp_app_name }}.jar"
 clojure_uberjar_webapp_app_env_local_path: "files/env"
 clojure_uberjar_webapp_app_env_path: "{{ clojure_uberjar_webapp_app_root }}/.app"
+clojure_uberjar_webapp_app_log_dir: "/var/log/{{ clojure_uberjar_webapp_app_name }}"
 
 # Used in the upstart script to start the web app
-clojure_uberjar_webapp_app_command: "/usr/bin/java -Xms300m -Xmx300m -Ddatomic.objectCacheMax=64m -Ddatomic.memoryIndexMax=64m  -jar {{ clojure_uberjar_webapp_app_root}}/{{ clojure_uberjar_webapp_domain }}.jar server >> /var/log/{{ clojure_uberjar_webapp_domain }}/{{ clojure_uberjar_webapp_domain }}_app.log 2>&1"
+clojure_uberjar_webapp_app_command: "/usr/bin/java -Xms300m -Xmx300m -Ddatomic.objectCacheMax=64m -Ddatomic.memoryIndexMax=64m  -jar {{ clojure_uberjar_webapp_app_root}}/{{ clojure_uberjar_webapp_app_jar_name }} server >> {{ clojure_uberjar_webapp_app_log_dir }}/{{ clojure_uberjar_webapp_app_name }}.log 2>&1"
 clojure_uberjar_webapp_datomic_env_path: "{{ clojure_uberjar_webapp_app_root }}/.datomic"
