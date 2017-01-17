@@ -1,7 +1,7 @@
 Clojure Uberjar Webapp: App
 =========
 
-Used to configure a server to run an uberjar that has an HTTP interface
+Run an uberjar web app
 
 Requirements
 ------------
