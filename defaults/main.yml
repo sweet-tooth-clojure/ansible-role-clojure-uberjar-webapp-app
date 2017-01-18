@@ -1,5 +1,5 @@
 ---
-Clojure_uberjar_webapp_app_user: "{{ clojure_uberjar_webapp_app_name }}"
+clojure_uberjar_webapp_app_user: "{{ clojure_uberjar_webapp_app_name }}"
 clojure_uberjar_webapp_app_root: "/var/www/{{ clojure_uberjar_webapp_app_name }}"
 clojure_uberjar_webapp_app_http_port: 3000
 clojure_uberjar_webapp_app_http_env_path: "{{ clojure_uberjar_webapp_app_root }}/.http-env"
