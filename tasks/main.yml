@@ -2,7 +2,7 @@
 - name: Add java 8 repo
   apt_repository: repo='ppa:openjdk-r/ppa'
   tags:
-    - provision
+    - install
 
 - name: Install required system packages
   apt: pkg="{{ item }}" state=installed update-cache=yes
@@ -13,18 +13,18 @@
   - vim
   - curl
   tags:
-    - provision
+    - install
 
 # This sets up the filesystem for the clojure app
 - name: Create user
   user: home=/home/{{ clojure_uberjar_webapp_app_user }} name={{ clojure_uberjar_webapp_app_user }} state=present
   tags:
-    - provision
+    - install
 
 - name: Create project directory
   file: state=directory path={{ clojure_uberjar_webapp_app_root }} owner={{ clojure_uberjar_webapp_app_user }} group={{ clojure_uberjar_webapp_app_user }} mode=755
   tags:
-    - provision
+    - install
 
 - name: Check existence of local env file
   local_action: stat path="{{ clojure_uberjar_webapp_app_env_local_path }}"
@@ -60,7 +60,7 @@
 - name: Make app log directory
   file: state=directory path={{ clojure_uberjar_webapp_app_log_dir }} owner={{ clojure_uberjar_webapp_app_user }} group={{ clojure_uberjar_webapp_app_user }} mode=755
   tags:
-    - provision
+    - install
 
   # A non-ansible script creates files/app.jar
 - name: Copy uberjar
