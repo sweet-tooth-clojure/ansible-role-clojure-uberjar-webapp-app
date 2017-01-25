@@ -1,4 +1,4 @@
-for f in /var/www/localhost/config/.[a-z]*; do
+for f in {{ clojure_uberjar_webapp_app_config_dir }}/.[a-z]*; do
   source "$f";
 done
 
