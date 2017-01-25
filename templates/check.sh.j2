@@ -1,0 +1,5 @@
+for f in /var/www/localhost/config/.[a-z]*; do
+  source "$f";
+done
+
+java -Xms200m -Xmx400m  -jar {{ clojure_uberjar_webapp_app_jar_name }} deploy/check

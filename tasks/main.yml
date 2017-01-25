@@ -26,6 +26,9 @@
   tags:
     - install
 
+- name: Create config directory
+  file: state=directory path={{ clojure_uberjar_webapp_app_config_dir }} owner={{ clojure_uberjar_webapp_app_user }} group={{ clojure_uberjar_webapp_app_user }} mode=755
+
 - name: Check existence of local env file
   local_action: stat path="{{ clojure_uberjar_webapp_app_env_local_path }}"
   register: app_env_local_file
@@ -68,6 +71,18 @@
   tags:
     - deploy
 
+- name: Copy check script
+  template: src="{{ clojure_uberjar_webapp_app_check_local_path }}" dest="{{ clojure_uberjar_webapp_app_root }}/check.sh" mode=755
+  tags:
+    - deploy
+    - check
+    
+- name: Run check
+  command: chdir={{ clojure_uberjar_webapp_app_root }}/ bash ./check.sh
+  tags:
+    - deploy
+    - check
+    
 # TODO make this a handler
 - name: Install schemas
   command: chdir={{ clojure_uberjar_webapp_app_root }}/ java -Xms200m -Xmx400m  -jar {{ clojure_uberjar_webapp_app_jar_name }} db/install-schemas
@@ -75,6 +90,8 @@
     DB_URI: "{{ datomic_uri }}"
   tags:
     - deploy
+    - database
+    - migration
 
 # TODO: no-downtime deploy
 - name: Restart web app
