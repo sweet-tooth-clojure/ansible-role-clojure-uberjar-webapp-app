@@ -71,6 +71,10 @@ Example Playbook
     - "flyingmachine.clojure-uberjar-webapp-nginx"
 ```
 
+GitHub Repo
+-------
+https://github.com/sweet-tooth-clojure/ansible-role-clojure-uberjar-webapp-app
+
 
 License
 -------
