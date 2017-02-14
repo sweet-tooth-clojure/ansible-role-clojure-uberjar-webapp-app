@@ -9,7 +9,6 @@
   with_items:
   - openjdk-8-jre
   - wget
-  - unzip
   - vim
   - curl
   tags:
