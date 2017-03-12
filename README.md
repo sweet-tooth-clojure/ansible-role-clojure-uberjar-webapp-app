@@ -8,6 +8,12 @@ web server. It:
 * Installs an upstart script to run the program as a service
 * Relies on environment variables to configure your program
 
+See https://github.com/sweet-tooth-clojure/ansible-roles for a quick
+overview and instructions. See
+[_Deploying Your First Clojure App ...From the Shadows_](http://www.braveclojure.com/quests/deploy/)
+for an introductory guide to Ansible and in-depth explanation of this
+role.
+
 Requirements
 ------------
 
@@ -18,9 +24,10 @@ Role Variables
 
 I tried to take care to parameterize as much as I could, but to define
 defaults such that you're only required to define a couple vars for
-everything to work. If you define `clojure_uberjar_webapp_app_name`,
+everything to work. If you define `clojure_uberjar_webapp_domainb`,
 then `flyingmachine.clojure-uberjar-webapp-common` will define
-`clojure_uberjar_webapp_app_name`, which is used by most of the vars velow.
+`clojure_uberjar_webapp_app_name`, which is used by most of the vars
+velow.
 
 For example, if your domain is `foo.bar.com`, the app name will be
 `foo-bar-com`. Your java jar will be uploaded to
