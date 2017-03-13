@@ -3,6 +3,7 @@ clojure_uberjar_webapp_app_user: "{{ clojure_uberjar_webapp_app_name }}"
 clojure_uberjar_webapp_app_root: "/var/www/{{ clojure_uberjar_webapp_app_name }}"
 clojure_uberjar_webapp_app_http_port: 3000
 clojure_uberjar_webapp_app_config_dir: "{{ clojure_uberjar_webapp_app_root }}/config"
+clojure_uberjar_webapp_app_combined_config_path: "{{ clojure_uberjar_webapp_app_root }}/.combined-config"
 clojure_uberjar_webapp_app_http_env_path: "{{ clojure_uberjar_webapp_app_config_dir }}/.http-env"
 clojure_uberjar_webapp_app_service_name: "{{ clojure_uberjar_webapp_app_name }}"
 clojure_uberjar_webapp_app_jar_name: "{{ clojure_uberjar_webapp_app_name }}.jar"
@@ -13,4 +14,3 @@ clojure_uberjar_webapp_app_check_local_path: "templates/check.sh.j2"
 
 # Used in the upstart script to start the web app
 clojure_uberjar_webapp_app_command: "/usr/bin/java -Xms300m -Xmx300m -Ddatomic.objectCacheMax=64m -Ddatomic.memoryIndexMax=64m  -jar {{ clojure_uberjar_webapp_app_root}}/{{ clojure_uberjar_webapp_app_jar_name }} server >> {{ clojure_uberjar_webapp_app_log_dir }}/{{ clojure_uberjar_webapp_app_name }}.log 2>&1"
-clojure_uberjar_webapp_datomic_env_path: "{{ clojure_uberjar_webapp_app_config_dir }}/.datomic"

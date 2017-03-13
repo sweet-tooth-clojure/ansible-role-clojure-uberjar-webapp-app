@@ -12,18 +12,7 @@ respawn
 
 script
   set -a
-  . {{ clojure_uberjar_webapp_app_http_env_path }}
-  
-  {%- if datomic_uri is defined %}
-  
-  . {{ clojure_uberjar_webapp_datomic_env_path }}
-  {%- endif %}
-  
-  {%- if app_env_local_file.stat.exists %}
-  
-  . {{ clojure_uberjar_webapp_app_env_path }}
-  {%- endif %}
-
+  . {{ clojure_uberjar_webapp_app_combined_config_path }}
 
   {{ clojure_uberjar_webapp_app_command }}
 end script
