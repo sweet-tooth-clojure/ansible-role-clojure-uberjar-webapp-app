@@ -54,6 +54,12 @@
   tags:
     - deploy
     - check
+
+- name: combine configs
+  assemble:
+    src: "{{ clojure_uberjar_webapp_app_config_dir }}"
+    dest: "{{ clojure_uberjar_webapp_app_combined_config_path }}"
+    delimiter: "\n"
     
 - name: Run check
   command: chdir={{ clojure_uberjar_webapp_app_root }}/ bash ./check.sh
@@ -63,9 +69,3 @@
   notify:
     - install schemas
     - restart web app
-
-- name: combine configs
-  assemble:
-    src: "{{ clojure_uberjar_webapp_app_config_dir }}"
-    dest: "{{ clojure_uberjar_webapp_app_combined_config_path }}"
-    delimiter: "\n"
