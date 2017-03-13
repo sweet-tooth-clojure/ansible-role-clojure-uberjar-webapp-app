@@ -62,7 +62,6 @@
     - check
   notify:
     - install schemas
-    - combine configs
     - restart web app
 
 - name: combine configs
