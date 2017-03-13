@@ -64,3 +64,9 @@
     - install schemas
     - combine configs
     - restart web app
+
+- name: combine configs
+  assemble:
+    src: "{{ clojure_uberjar_webapp_app_config_dir }}"
+    dest: "{{ clojure_uberjar_webapp_app_combined_config_path }}"
+    delimiter: "\n"
