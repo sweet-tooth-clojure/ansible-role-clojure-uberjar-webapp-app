@@ -24,7 +24,7 @@ Role Variables
 
 I tried to take care to parameterize as much as I could, but to define
 defaults such that you're only required to define a couple vars for
-everything to work. If you define `clojure_uberjar_webapp_domainb`,
+everything to work. If you define `clojure_uberjar_webapp_domain`,
 then `flyingmachine.clojure-uberjar-webapp-common` will define
 `clojure_uberjar_webapp_app_name`, which is used by most of the vars
 velow.
