@@ -1,5 +1,4 @@
 ---
-clojure_uberjar_webapp_app_user: "{{ clojure_uberjar_webapp_app_name }}"
 clojure_uberjar_webapp_app_combined_config_path: "{{ clojure_uberjar_webapp_app_root }}/.combined-config"
 
 clojure_uberjar_webapp_app_http_port: 3000
