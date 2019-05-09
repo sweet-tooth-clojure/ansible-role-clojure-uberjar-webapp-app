@@ -1,16 +1,11 @@
 ---
-- name: Add java 8 repo
-  apt_repository: repo='ppa:openjdk-r/ppa'
-  tags:
-    - install
-
 - name: Install required system packages
-  apt: pkg="{{ item }}" state=installed update-cache=yes
-  with_items:
-  - openjdk-8-jre
-  - wget
-  - vim
-  - curl
+  apt:
+    pkg:
+      - openjdk-11-jre
+      - wget
+      - vim
+      - curl
   tags:
     - install
 
@@ -32,9 +27,12 @@
   template: src="templates/http-env.j2" dest="{{ clojure_uberjar_webapp_app_http_env_path }}"
   tags:
     - configure
+
+- name: Upload start script
+  template: src="templates/start-app.sh.j2" dest="{{ clojure_uberjar_start_script_path }}"
     
-- name: Upload web app upstart config file
-  template: src="templates/app-upstart.conf.j2" dest="/etc/init/{{ clojure_uberjar_webapp_app_service_name }}.conf"
+- name: Upload web app systemd config file
+  template: src="templates/app.service.j2" dest="/etc/systemd/system/{{ clojure_uberjar_webapp_app_service_name }}.service"
   tags:
     - configure
 

@@ -1,0 +1,10 @@
+[Unit]
+Description=Service for a clojure webapp
+Documentation=https://github.com/sweet-tooth-clojure/ansible-role-clojure-uberjar-webapp-app
+
+[Service]
+ExecStart={{ clojure_uberjar_start_script_path }}
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

@@ -10,5 +10,7 @@ clojure_uberjar_webapp_app_env_path: "{{ clojure_uberjar_webapp_app_config_dir }
 clojure_uberjar_webapp_app_log_dir: "/var/log/{{ clojure_uberjar_webapp_app_name }}"
 clojure_uberjar_webapp_app_check_local_path: "templates/check.sh.j2"
 
-# Used in the upstart script to start the web app
+# Used in the start script to start the web app
 clojure_uberjar_webapp_app_command: "/usr/bin/java -Xms300m -Xmx300m -Ddatomic.objectCacheMax=64m -Ddatomic.memoryIndexMax=64m  -jar {{ clojure_uberjar_webapp_app_root}}/{{ clojure_uberjar_webapp_app_jar_name }} server >> {{ clojure_uberjar_webapp_app_log_dir }}/{{ clojure_uberjar_webapp_app_name }}.log 2>&1"
+
+clojure_uberjar_start_script_path: "{{ clojure_uberjar_webapp_app_root }}/start.sh"
