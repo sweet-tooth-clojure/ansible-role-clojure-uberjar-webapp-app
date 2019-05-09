@@ -1,5 +1,3 @@
-for f in {{ clojure_uberjar_webapp_app_config_dir }}/.[a-z]*; do
-  source "$f";
-done
+source {{ clojure_uberjar_webapp_app_combined_config_path }}
 
 java -Xms200m -Xmx400m  -jar {{ clojure_uberjar_webapp_app_jar_name }} deploy/check
