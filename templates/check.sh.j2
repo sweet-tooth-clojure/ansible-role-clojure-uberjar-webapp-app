@@ -1,3 +1,2 @@
 source {{ clojure_uberjar_webapp_app_combined_config_path }}
-
-java -Xms200m -Xmx400m  -jar {{ clojure_uberjar_webapp_app_jar_name }} deploy/check
+{{ clojure_uberjar_webapp_app_check_command }}

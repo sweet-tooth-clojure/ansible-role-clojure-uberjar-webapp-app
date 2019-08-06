@@ -8,7 +8,7 @@
       - curl
   tags:
     - install
-
+  
 - name: Check existence of local env file
   local_action: stat path="{{ clojure_uberjar_webapp_app_env_local_path }}"
   register: app_env_local_file
@@ -29,7 +29,9 @@
     - configure
 
 - name: Upload start script
-  template: src="templates/start-app.sh.j2" dest="{{ clojure_uberjar_start_script_path }}"
+  template: src="templates/start-app.sh.j2" dest="{{ clojure_uberjar_start_script_path }}" mode=755
+  tags:
+    - configure
     
 - name: Upload web app systemd config file
   template: src="templates/app.service.j2" dest="/etc/systemd/system/{{ clojure_uberjar_webapp_app_service_name }}.service"
@@ -58,12 +60,36 @@
     src: "{{ clojure_uberjar_webapp_app_config_dir }}"
     dest: "{{ clojure_uberjar_webapp_app_combined_config_path }}"
     delimiter: "\n"
+  tags:
+    - deploy
     
 - name: Run check
   command: chdir={{ clojure_uberjar_webapp_app_root }}/ bash ./check.sh
+  when: clojure_uberjar_webapp_app_perform_check|bool
   tags:
     - deploy
     - check
+
+- name: Confirm ok
+  command: echo "restart this baby"
+  tags:
+    - deploy
+  notify:
+    - restart web app
+
+- name: Notify install schemas
+  command: echo "install me some schemas"
+  tags:
+    - deploy
   notify:
     - install schemas
-    - restart web app
+  when: datomic_db_name is defined
+
+- name: Enable app systemd
+  systemd:
+    name: "{{ clojure_uberjar_webapp_app_service_name }}"
+    enabled: yes
+  become: yes
+  become_method: sudo
+  tags:
+    - install

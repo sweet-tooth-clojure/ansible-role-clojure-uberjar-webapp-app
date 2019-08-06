@@ -1,3 +1,4 @@
-set -a
-. {{ clojure_uberjar_webapp_app_combined_config_path }}
+#!/usr/bin/env bash
+
+source {{ clojure_uberjar_webapp_app_combined_config_path }}
 {{ clojure_uberjar_webapp_app_command }}

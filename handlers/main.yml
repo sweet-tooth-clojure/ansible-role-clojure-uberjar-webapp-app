@@ -1,6 +1,8 @@
 ---
 - name: restart web app
-  service: name={{ clojure_uberjar_webapp_app_service_name }} state=restarted
+  systemd:
+    name: "{{ clojure_uberjar_webapp_app_service_name }}"
+    state: restarted
   become: yes
   become_method: sudo
   tags:
